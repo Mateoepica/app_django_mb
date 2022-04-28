@@ -14,7 +14,7 @@ class LoginForm(forms.ModelForm):
                 if 'class' in field.widget.attrs:
                     field.widget.attrs['class'] += 'class-' + name
                 else:
-                    field.widget.attrs.update({'class':'class-' + name})
+                    field.widget.attrs.update({'class':'class-' + name +' form-control'})
                 if name == 'password':
                     print('AJAJA')
                     
