@@ -10,10 +10,11 @@ from django_plotly_dash import DjangoDash
 import plotly.express as px
 import plotly.graph_objects as go
 
-data = pd.read_csv("C:/Users/matfa/proyectos_django/django_forms2/myapp/dash_apps/finished_apps/out_and_sales.csv")
+data = pd.read_csv("C:/Users/matfa/proyectos_django/django_forms2/myapp/dash_apps/finished_apps/out3_and_sales.csv")
 data["ds"] = pd.to_datetime(data["ds"], format="%Y-%m-%d")
 data.sort_values("ds",inplace=True)
-
+print(data.ds.min())
+print(data.ds.max())
 
 x = data.ds
 Xs = [x_point for x_point in range(len(x))]
@@ -32,16 +33,18 @@ app.title = "Meat N' Bone Analysis"
 fig = go.Figure([
     go.Scatter(
         x=x,
-        y=y,
-        line=dict(color='rgb(255, 0, 0)'),
-        mode='lines'
-    ),
-    go.Scatter(
-        x=x,
         y=y_scatter,
         line=dict(color='rgb(0,0,200)'),
         mode='markers',
-        marker=dict(size=3)
+        marker=dict(size=3),
+        name="Datos Reales"
+    ),
+    go.Scatter(
+        x=x,
+        y=y,
+        line=dict(color='rgb(255, 0, 0)'),
+        mode='lines',
+        name="Datos Predichos"
     ),
     go.Scatter(
         name='Upper Bound',
@@ -147,7 +150,7 @@ def update_charts(start_date, end_date):
                     ),
                     go.Scatter(
                         x=filtered_data["ds"],
-                        y=filtered_data["yhat_lower"],
+                        y=filtered_data["yhat"] + filtered_data["yhat_lower"],
                         #line=dict(color='rgb(255, 0, 0, 0.2)'),
                         mode='lines',
                         marker=dict(color="#444"),
@@ -158,7 +161,7 @@ def update_charts(start_date, end_date):
                     ),
                     go.Scatter(
                         x=filtered_data["ds"],
-                        y=filtered_data["yhat_upper"],
+                        y=filtered_data["yhat"] + filtered_data["yhat_upper"],
                         #line=dict(color='rgb(255, 0, 0, 0.2)'),
                         mode='lines',
                         
