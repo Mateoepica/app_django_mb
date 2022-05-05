@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+#DATABASE_ENGINE = 'django.db.backends.sqlite3'
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'myapp',
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'channels',
-    'channels_redis'
+    #'channels_redis'
 ]
 
 MIDDLEWARE = [
@@ -84,7 +84,7 @@ DATABASES = {
     }
 }
 
-
+DATABASE_ENGINE = 'django.db.backends.sqlite3'
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -118,14 +118,14 @@ USE_TZ = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ASGI_APPLICATION = 'django_forms2.routing.application'
-CHANNEL_LAYERS = {
-    'default':{
-        'BACKEND':'channel_redis.core.RedisChannelLayer',
-        'CONFIG':{
-            'hosts':[{'127.0.0.1':6379},],
-        }
-    }
-}
+# CHANNEL_LAYERS = {
+#     'default':{
+#         'BACKEND':'channel_redis.core.RedisChannelLayer',
+#         'CONFIG':{
+#             'hosts':[{'127.0.0.1':6379},],
+#         }
+#     }
+# }
 
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
@@ -148,7 +148,10 @@ PLOTLY_COMPONENTS = [
     'dpd_components'
 ]
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/myapp/'
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static"
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

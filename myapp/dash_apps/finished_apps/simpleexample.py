@@ -9,8 +9,13 @@ from dash.dependencies import Output, Input
 from django_plotly_dash import DjangoDash
 import plotly.express as px
 import plotly.graph_objects as go
+import pathlib
+import os
+ruta = pathlib.Path(__file__).parent.resolve()
+ruta = os.path.join(ruta, "out3_and_sales.csv")
 
-data = pd.read_csv("C:/Users/matfa/proyectos_django/django_forms2/myapp/dash_apps/finished_apps/out3_and_sales.csv")
+
+data = pd.read_csv(ruta)
 data["ds"] = pd.to_datetime(data["ds"], format="%Y-%m-%d")
 data.sort_values("ds",inplace=True)
 print(data.ds.min())
@@ -30,43 +35,43 @@ app = DjangoDash('MiEjemploSimple', external_stylesheets=external_stylesheets)
 app.title = "Meat N' Bone Analysis"
 
 
-fig = go.Figure([
-    go.Scatter(
-        x=x,
-        y=y_scatter,
-        line=dict(color='rgb(0,0,200)'),
-        mode='markers',
-        marker=dict(size=3),
-        name="Datos Reales"
-    ),
-    go.Scatter(
-        x=x,
-        y=y,
-        line=dict(color='rgb(255, 0, 0)'),
-        mode='lines',
-        name="Datos Predichos"
-    ),
-    go.Scatter(
-        name='Upper Bound',
-        x=x,
-        y=y_upper,
-        mode='lines',
-        marker=dict(color="#444"),
-        line=dict(width=0),
-        showlegend=False
-    ),
-    go.Scatter(
-        name='Lower Bound',
-        x=x,
-        y=y_lower,
-        marker=dict(color="#444"),
-        line=dict(width=0),
-        mode='lines',
-        fillcolor='rgba(68, 68, 68, 0.3)',
-        fill='tonexty',
-        showlegend=False
-    )
-])
+# fig = go.Figure([
+#     go.Scatter(
+#         x=x,
+#         y=y_scatter,
+#         line=dict(color='rgb(0,0,200)'),
+#         mode='markers',
+#         marker=dict(size=3),
+#         name="Datos Reales"
+#     ),
+#     go.Scatter(
+#         x=x,
+#         y=y,
+#         line=dict(color='rgb(255, 0, 0)'),
+#         mode='lines',
+#         name="Datos Predichos"
+#     ),
+#     go.Scatter(
+#         name='Upper Bound',
+#         x=x,
+#         y=y_upper,
+#         mode='lines',
+#         marker=dict(color="#444"),
+#         line=dict(width=0),
+#         showlegend=False
+#     ),
+#     go.Scatter(
+#         name='Lower Bound',
+#         x=x,
+#         y=y_lower,
+#         marker=dict(color="#444"),
+#         line=dict(width=0),
+#         mode='lines',
+#         fillcolor='rgba(68, 68, 68, 0.3)',
+#         fill='tonexty',
+#         showlegend=False
+#     )
+# ])
 
 
 app.layout = html.Div(
@@ -110,7 +115,7 @@ app.layout = html.Div(
             children=[
                 html.Div(
                     children=dcc.Graph(
-                        figure=fig,
+                        # figure=fig,
                         id="price-chart", config={"displayModeBar": False},
                     ),
                     className="card",
@@ -150,23 +155,23 @@ def update_charts(start_date, end_date):
                     ),
                     go.Scatter(
                         x=filtered_data["ds"],
-                        y=filtered_data["yhat"] + filtered_data["yhat_lower"],
+                        y= filtered_data["yhat_upper"],
+                        #line=dict(color='rgb(255, 0, 0, 0.2)'),
+                        mode='lines',
+                        
+                        marker=dict(color="#444"),
+                        line=dict(width=0),
+                        showlegend=False
+                    ),
+                    go.Scatter(
+                        x=filtered_data["ds"],
+                        y=filtered_data["yhat_lower"],
                         #line=dict(color='rgb(255, 0, 0, 0.2)'),
                         mode='lines',
                         marker=dict(color="#444"),
                         line=dict(width=0),
                         fillcolor='rgba(255,0, 0, 0.3)',
                         fill='tonexty',
-                        showlegend=False
-                    ),
-                    go.Scatter(
-                        x=filtered_data["ds"],
-                        y=filtered_data["yhat"] + filtered_data["yhat_upper"],
-                        #line=dict(color='rgb(255, 0, 0, 0.2)'),
-                        mode='lines',
-                        
-                        marker=dict(color="#444"),
-                        line=dict(width=0),
                         showlegend=False
                     ),
     ])
