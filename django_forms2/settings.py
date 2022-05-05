@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5(vun6yffyhcm=ve^!82o)yfm3c&l3e7mqy0fp$$p%6jr#w$s='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 #DATABASE_ENGINE = 'django.db.backends.sqlite3'
 # Application definition
